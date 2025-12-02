@@ -1,0 +1,2 @@
+# Final Project
+To design and implement an embedded powered 90s era style handheld electronic game similar to Bop ItLinks to an external site., Brain WarpLinks to an external site., or other 90s era electronic handheld game using an ESP32 microcontroller and CircuitPython. You will be provided with and must use: Xiao ESP323C Microcontroller, SSD1306 128x64 OLED screen, ADXL345 Accelerometer, Rotary Encoder, LiPo Battery, NeoPixel LEDs, and On/Off Switch. You may add any additional components to your game through materials that are available to you in the Maker Space.
