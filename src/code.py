@@ -8,11 +8,3 @@ import game_runner
 
 # Start the game
 game_runner.main()
-
-
-
-
-
-
-
-  

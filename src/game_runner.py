@@ -260,10 +260,18 @@ SPRITE_FISH = [
 # HELPER FUNCTIONS
 # ============================================
 
+# This performs a linear interpolation between two numbers.
+# It returns a value that is t percent of the way between start and end.
+# Calculating sleep probability based on level progress
 def lerp(start, end, t):
     """Linear interpolation"""
     return start + (end - start) * t
 
+# Draws a bitmap sprite (pixel art) on the OLED screen.
+# Drawing the cat
+# Drawing obstacles (fences)
+# Drawing fish
+# Drawing lane dotted lines
 def draw_sprite(group, sprite_data, x, y, width, height, color=0xFFFFFF):
     """Draw a sprite bitmap"""
     bitmap = displayio.Bitmap(width, height, 2)
@@ -279,6 +287,7 @@ def draw_sprite(group, sprite_data, x, y, width, height, color=0xFFFFFF):
     group.append(tile_grid)
     return tile_grid
 
+# Creates a text label and adds it to the display group.
 def draw_text(group, text, x, y, color=0xFFFFFF):
     """Draw text label"""
     lbl = label.Label(terminalio.FONT, text=text, x=x, y=y, color=color)
@@ -289,6 +298,8 @@ def draw_text(group, text, x, y, color=0xFFFFFF):
 # CLASSES
 # ============================================
 
+# Wraps the HC-SR04 ultrasonic sensor so the game can convert distance → lane control.
+# Throttling readings so the sensor doesn’t get spammed
 class DistanceSensor:
     """HC-SR04 Ultrasonic Distance Sensor (using Adafruit library)"""
     def __init__(self, sonar):
@@ -370,7 +381,7 @@ class DistanceSensor:
 
         return None
 
-
+# Centralizes all buzzer sound effects, including:
 class AudioManager:
     """Buzzer sound effects"""
     def __init__(self, buzzer):
@@ -430,7 +441,7 @@ class AudioManager:
     def game_won(self):
         self.play_tone(1000, 500)
 
-
+# Controls the single RGB neopixel for feedback.
 class NeopixelManager:
     """LED feedback"""
     def __init__(self, pixel):
@@ -494,7 +505,7 @@ class NeopixelManager:
         self.pixel.fill(COLOR_OFF)
         self.pixel.show()
 
-
+# Reads all input devices consistently:
 class InputHandler:
     """All input devices"""
     LONG_PRESS_MS = 1000  # 1 second for long press (acts as rotary button)
@@ -603,7 +614,7 @@ class InputHandler:
             return True
         return False
 
-
+# The main character
 class Cat:
     """Player character - the cat!"""
     def __init__(self):
@@ -688,7 +699,7 @@ class Cat:
         """Check if currently invincible"""
         return time.monotonic_ns() // 1000000 < self.invincible_until
 
-
+# Base class for all objects that move left across the screen (obstacles & coins).
 class GameObject:
     """Base class for obstacles and coins"""
     def __init__(self):
@@ -725,7 +736,7 @@ class GameObject:
                 cat.y < self.y + self.height and
                 cat.y + CAT_HEIGHT > self.y)
 
-
+# is a fish not a coin and it is food
 class Coin(GameObject):
     """Fish coin collectible"""
     def __init__(self):
@@ -733,7 +744,7 @@ class Coin(GameObject):
         self.width = 6
         self.height = 6
 
-
+# Manages the entire game world for a single level.
 class World:
     """Game world manager"""
     def __init__(self, level, difficulty):
@@ -807,7 +818,7 @@ class World:
         """Check if level goals met"""
         return self.distance_traveled >= self.target_distance
 
-
+# Implements the discrete boost charge system.
 class BoostMeter:
     """Boost charge system (discrete charges)"""
     def __init__(self):
@@ -868,7 +879,7 @@ class BoostMeter:
         """Get current boost charges"""
         return self.charges
 
-
+# The game state machine.
 class Game:
     """Main game state"""
     def __init__(self):
@@ -925,7 +936,7 @@ class Game:
         print(f"[GAME] Sleep check: {roll:.1f} vs {sleep_chance:.1f}%")
         return roll < sleep_chance
 
-
+# Handles all drawing to the screen.
 class DisplayManager:
     """Screen rendering"""
     def __init__(self, display):
