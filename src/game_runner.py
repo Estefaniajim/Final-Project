@@ -173,6 +173,7 @@ COLOR_OFF = (0, 0, 0)
 # ============================================
 
 # Cat running (12x12)
+# They are the same, no animation sorry
 SPRITE_CAT_RUN_1 = [
     0b111100001111,
     0b100110011001,
